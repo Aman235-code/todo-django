@@ -1,0 +1,34 @@
+{% extends "base.html" %} 
+{% block content %}
+
+<h2>
+    {% if task %}Edit{% else %}Add{% endif %} Task
+</h2>
+{% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+<form method="post">
+    {% csrf_token %}
+
+    <div class="form-group mb-3">
+        <label class="form-label" for="title">Title:</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{ task.title|default_if_none:'' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea class="form-control" id="description" rpws="3" name="description">{{ task.description|default_if_none:'' }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% url 'todo:task_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+   
+
+
+
+
+
+
+
+
+
+{% endblock %}
