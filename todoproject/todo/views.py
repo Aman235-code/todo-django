@@ -19,3 +19,18 @@ def add_task(request):
         return render(request, 'todo/task_form.html', {'error': error})
     return render(request, 'todo/task_form.html')
 
+def edit_task(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    if request.method == 'POST':
+        title = request.POST.get('title', '').strip()
+        description = request.POST.get('description', '').strip()
+        completed = request.POST.get('completed') == 'on'
+        if title:
+            task.title = title
+            task.description = description
+            task.completed = completed
+            task.save()
+            return redirect(reverse('todo:task_list'))
+        return render(request, 'todo/task_form.html', {'task': task, 'error': "Title is required."})
+    return render(request, 'todo/task_form.html', {'task': task})
+
