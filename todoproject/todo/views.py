@@ -34,3 +34,9 @@ def edit_task(request, pk):
         return render(request, 'todo/task_form.html', {'task': task, 'error': "Title is required."})
     return render(request, 'todo/task_form.html', {'task': task})
 
+def delete_task(request, pk):
+    task = get_object_or_404(Task, pk=pk)
+    if request.method == 'POST':
+        task.delete()
+        return redirect(reverse('todo:task_list'))
+    return render(request, 'todo/task_confirm_delete.html', {'task': task})
